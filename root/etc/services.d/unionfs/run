@@ -1,5 +1,10 @@
 #!/usr/bin/with-contenv bash
-echo "$( date +'%Y/%m/%d %H:%M:%S' ) Mounting ${READ_ONLY_DIR} + ${READ_WRITE_DIR} in ${MERGED_DIR}"
+if [ -z "$FOLDER_PATHS" ]; then
+  echo "\$FOLDER_PATHS not set";
+  exit 1;
+fi
+
+echo "$( date +'%Y/%m/%d %H:%M:%S' ) Mounting ${FOLDER_PATHS} in ${MERGED_DIR}"
 
 params=""
 for key in AUTO_CACHE AUTO_UNMOUNT NONEMPTY COW DIRECT_IO ASYNC_READ HARD_REMOVE USE_INO READDIR_INO ATOMIC_O_TRUNC BIG_WRITES; do
@@ -32,7 +37,7 @@ _cmd="/usr/bin/unionfs \
   -o auto_unmount \
   -o uid=${PUID} \
   -o gid=${PGID} \
-  ${READ_WRITE_DIR}=RW:${READ_ONLY_DIR}=RO \
+  ${FOLDER_PATHS} \
   ${MERGED_DIR}"
 
 echo "${_cmd}"	

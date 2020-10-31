@@ -30,5 +30,5 @@ RUN \
   rm -rf /tmp/*
 
 COPY root/ /
-VOLUME ["/read-only", "/read-write", "/merged"]
+VOLUME ["/merged"]
 CMD ["/init"]
